@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>pages/ContactPage.qml</file>
+        <file>components/InputField.qml</file>
+        <file>components/TextAreaField.qml</file>
+        <file>components/SubmitButton.qml</file>
+        <file>components/Alert.qml</file>
+    </qresource>
+</RCC>
+
