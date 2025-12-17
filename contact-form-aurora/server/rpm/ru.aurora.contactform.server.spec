@@ -6,12 +6,14 @@ License:    MIT
 URL:        https://github.com/user/contact-form-aurora
 Source0:    %{name}-%{version}.tar.bz2
 
+Requires:   sailfishsilica-qt5 >= 0.10.9
+BuildRequires:  pkgconfig(auroraapp)
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(Qt5WebSockets)
 BuildRequires:  pkgconfig(Qt5Network)
-BuildRequires:  pkgconfig(Qt5Svg)
+BuildRequires:  desktop-file-utils
 
 %description
 WebSocket server with Admin Panel GUI for Contact Form application.
@@ -31,5 +33,5 @@ Receives and validates contact form submissions from Aurora OS clients.
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
 %{_datadir}/%{name}
+%{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
-

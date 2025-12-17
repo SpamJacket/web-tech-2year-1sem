@@ -28,6 +28,7 @@ DISTFILES += \
     qml/pages/AdminPage.qml \
     rpm/ru.aurora.contactform.server.spec \
     rpm/ru.aurora.contactform.server.yaml \
+    ru.aurora.contactform.server.desktop \
     icons/ru.aurora.contactform.server.svg
 
 # Иконки приложения для разных разрешений экрана

@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Contact Form Server
+Name[ru]=Сервер контактной формы
+Comment=Admin panel for Contact Form WebSocket server
+Comment[ru]=Панель администрирования для WebSocket сервера контактной формы
+Icon=ru.aurora.contactform.server
+Exec=ru.aurora.contactform.server
+Categories=Utility;Network;
+X-Nemo-Application-Type=silica-qt5
+
+[X-Application]
+Permissions=Internet
+OrganizationName=ru.aurora
+ApplicationName=contactform.server
+
+
