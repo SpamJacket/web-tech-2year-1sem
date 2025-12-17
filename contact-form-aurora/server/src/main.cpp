@@ -1,50 +1,21 @@
+#ifdef QT_QML_DEBUG
+#include <QtQuick>
+#endif
+
+#include <auroraapp.h>
 #include <QGuiApplication>
-#include <QQmlApplicationEngine>
+#include <QQuickView>
 #include <QQmlContext>
 #include <QtQml>
-#include <QIcon>
-#include <QDir>
 
 #include "contactserver.h"
 
-int main(int argc, char *argv[])
+Q_DECL_EXPORT int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-    app.setApplicationName("Contact Form Admin Panel");
-    app.setApplicationVersion("1.0.0");
-    app.setOrganizationName("Aurora Contact Form");
-    
-    // Загружаем иконку из папки icons рядом с исполняемым файлом
-    QString appDir = QCoreApplication::applicationDirPath();
-    QString iconPath = appDir + "/../icons/172x172/ru.aurora.contactform.server.png";
-    
-    // Если PNG не найден, пробуем SVG
-    if (!QFile::exists(iconPath)) {
-        iconPath = appDir + "/../icons/ru.aurora.contactform.server.svg";
-    }
-    
-    // Если иконка в папке сборки не найдена, ищем в исходниках
-    if (!QFile::exists(iconPath)) {
-        iconPath = "icons/ru.aurora.contactform.server.svg";
-    }
-    
-    app.setWindowIcon(QIcon(iconPath));
-
-    // Регистрируем ContactServer как тип QML
+    // Регистрируем ContactServer как тип QML до создания приложения
     qmlRegisterType<ContactServer>("ContactFormServer", 1, 0, "ContactServer");
 
-    QQmlApplicationEngine engine;
-    
-    const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
-    
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    
-    engine.load(url);
-
-    return app.exec();
+    // Используем стандартный запуск Aurora/Sailfish приложения
+    // Автоматически загружает qml/ru.aurora.contactform.server.qml (по имени TARGET)
+    return Aurora::Application::main(argc, argv);
 }
-
