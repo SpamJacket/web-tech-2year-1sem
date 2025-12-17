@@ -153,7 +153,6 @@ Page {
                 
                 onTextChanged: {
                     if (nameError) nameError = ""
-                    if (submitStatus) submitStatus = ""
                 }
             }
             
@@ -168,7 +167,6 @@ Page {
                 
                 onTextChanged: {
                     if (emailError) emailError = ""
-                    if (submitStatus) submitStatus = ""
                 }
             }
             
@@ -182,7 +180,6 @@ Page {
                 
                 onTextChanged: {
                     if (messageError) messageError = ""
-                    if (submitStatus) submitStatus = ""
                 }
             }
             
