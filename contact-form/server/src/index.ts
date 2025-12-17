@@ -76,7 +76,10 @@ const sendError = (client: WebSocket, message: string): void => {
 const handleContactSubmit = (client: WebSocket, data: ContactSubmitMessage['data'], clientAddress: string): void => {
     const { name, email, message } = data
 
-    log(`📝 Форма от ${clientAddress}: ${name.trim()} <${email.trim()}>`, 'info')
+    log(`📝 Форма от ${clientAddress}:`, 'info')
+    log(`   Имя: ${name.trim()}`, 'info')
+    log(`   Email: ${email.trim()}`, 'info')
+    log(`   Сообщение: ${message.trim()}`, 'info')
 
     const result = validateContactForm(name, email, message)
 

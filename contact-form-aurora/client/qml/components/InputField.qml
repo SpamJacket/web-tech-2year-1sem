@@ -15,6 +15,13 @@ Column {
     x: Theme.horizontalPageMargin
     spacing: Theme.paddingSmall
     
+    // Синхронизация value -> text (когда value меняется снаружи)
+    onValueChanged: {
+        if (textField.text !== value) {
+            textField.text = value
+        }
+    }
+    
     TextField {
         id: textField
         width: parent.width
@@ -30,8 +37,11 @@ Column {
         // Подсветка ошибки
         color: root.errorText ? "red" : Theme.primaryColor
         
+        // Синхронизация text -> value (когда пользователь вводит)
         onTextChanged: {
-            root.value = text
+            if (root.value !== text) {
+                root.value = text
+            }
         }
     }
     
@@ -44,4 +54,3 @@ Column {
         wrapMode: Text.WordWrap
     }
 }
-

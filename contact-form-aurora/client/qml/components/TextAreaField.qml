@@ -14,6 +14,13 @@ Column {
     x: Theme.horizontalPageMargin
     spacing: Theme.paddingSmall
     
+    // Синхронизация value -> text (когда value меняется снаружи)
+    onValueChanged: {
+        if (textArea.text !== value) {
+            textArea.text = value
+        }
+    }
+    
     Label {
         text: root.label
         color: Theme.highlightColor
@@ -40,8 +47,11 @@ Column {
             border.width: 1
         }
         
+        // Синхронизация text -> value (когда пользователь вводит)
         onTextChanged: {
-            root.value = text
+            if (root.value !== text) {
+                root.value = text
+            }
         }
     }
     
@@ -54,4 +64,3 @@ Column {
         wrapMode: Text.WordWrap
     }
 }
-
