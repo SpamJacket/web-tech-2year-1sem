@@ -6,7 +6,7 @@ Column {
     
     property string label: ""
     property string placeholder: ""
-    property string value: ""
+    property alias text: textField.text
     property string errorText: ""
     property bool enabled: true
     property int inputMethodHints: Qt.ImhNone
@@ -15,19 +15,11 @@ Column {
     x: Theme.horizontalPageMargin
     spacing: Theme.paddingSmall
     
-    // Синхронизация value -> text (когда value меняется снаружи)
-    onValueChanged: {
-        if (textField.text !== value) {
-            textField.text = value
-        }
-    }
-    
     TextField {
         id: textField
         width: parent.width
         label: root.label
         placeholderText: root.placeholder
-        text: root.value
         enabled: root.enabled
         inputMethodHints: root.inputMethodHints
         
@@ -36,13 +28,6 @@ Column {
         
         // Подсветка ошибки
         color: root.errorText ? "red" : Theme.primaryColor
-        
-        // Синхронизация text -> value (когда пользователь вводит)
-        onTextChanged: {
-            if (root.value !== text) {
-                root.value = text
-            }
-        }
     }
     
     Label {

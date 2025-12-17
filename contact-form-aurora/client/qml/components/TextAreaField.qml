@@ -6,20 +6,13 @@ Column {
     
     property string label: ""
     property string placeholder: ""
-    property string value: ""
+    property alias text: textArea.text
     property string errorText: ""
     property bool enabled: true
     
     width: parent.width - Theme.horizontalPageMargin * 2
     x: Theme.horizontalPageMargin
     spacing: Theme.paddingSmall
-    
-    // Синхронизация value -> text (когда value меняется снаружи)
-    onValueChanged: {
-        if (textArea.text !== value) {
-            textArea.text = value
-        }
-    }
     
     Label {
         text: root.label
@@ -32,7 +25,6 @@ Column {
         width: parent.width
         height: Math.max(Theme.itemSizeLarge * 2, implicitHeight)
         placeholderText: root.placeholder
-        text: root.value
         enabled: root.enabled
         
         // Подсветка ошибки
@@ -45,13 +37,6 @@ Column {
                          textArea.activeFocus ? Theme.highlightColor : 
                          Theme.rgba(Theme.primaryColor, 0.3)
             border.width: 1
-        }
-        
-        // Синхронизация text -> value (когда пользователь вводит)
-        onTextChanged: {
-            if (root.value !== text) {
-                root.value = text
-            }
         }
     }
     

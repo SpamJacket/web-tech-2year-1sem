@@ -6,11 +6,6 @@ import "../components"
 Page {
     id: contactPage
     
-    // Состояние формы
-    property string nameValue: ""
-    property string emailValue: ""
-    property string messageValue: ""
-    
     // Ошибки валидации
     property string nameError: ""
     property string emailError: ""
@@ -30,19 +25,21 @@ Page {
         }
         
         onContactFormSuccess: function(msg) {
+            console.log("Success:", msg)
             isSubmitting = false
             submitStatus = "success"
             successMessage = msg
             // Очищаем форму после успешной отправки
-            nameValue = ""
-            emailValue = ""
-            messageValue = ""
+            nameField.text = ""
+            emailField.text = ""
+            messageField.text = ""
             nameError = ""
             emailError = ""
             messageError = ""
         }
         
         onContactFormError: function(nameErr, emailErr, messageErr) {
+            console.log("Error:", nameErr, emailErr, messageErr)
             isSubmitting = false
             submitStatus = "error"
             nameError = nameErr
@@ -51,6 +48,7 @@ Page {
         }
         
         onConnectionError: function(err) {
+            console.log("Connection error:", err)
             isSubmitting = false
             submitStatus = "error"
             connectionErrorLabel.text = err
@@ -150,12 +148,10 @@ Page {
                 id: nameField
                 label: "Имя"
                 placeholder: "Введите ваше имя"
-                value: nameValue
                 errorText: nameError
                 enabled: !isSubmitting && wsClient.connected
                 
-                onValueChanged: {
-                    nameValue = value
+                onTextChanged: {
                     if (nameError) nameError = ""
                     if (submitStatus) submitStatus = ""
                 }
@@ -166,13 +162,11 @@ Page {
                 id: emailField
                 label: "Email"
                 placeholder: "your@email.com"
-                value: emailValue
                 errorText: emailError
                 inputMethodHints: Qt.ImhEmailCharactersOnly
                 enabled: !isSubmitting && wsClient.connected
                 
-                onValueChanged: {
-                    emailValue = value
+                onTextChanged: {
                     if (emailError) emailError = ""
                     if (submitStatus) submitStatus = ""
                 }
@@ -183,12 +177,10 @@ Page {
                 id: messageField
                 label: "Сообщение"
                 placeholder: "Введите ваше сообщение..."
-                value: messageValue
                 errorText: messageError
                 enabled: !isSubmitting && wsClient.connected
                 
-                onValueChanged: {
-                    messageValue = value
+                onTextChanged: {
                     if (messageError) messageError = ""
                     if (submitStatus) submitStatus = ""
                 }
@@ -198,9 +190,9 @@ Page {
             SubmitButton {
                 text: isSubmitting ? "Отправка..." : "Отправить"
                 enabled: !isSubmitting && wsClient.connected && 
-                         nameValue.length > 0 && 
-                         emailValue.length > 0 && 
-                         messageValue.length > 0
+                         nameField.text.length > 0 && 
+                         emailField.text.length > 0 && 
+                         messageField.text.length > 0
                 loading: isSubmitting
                 
                 onClicked: {
@@ -210,7 +202,7 @@ Page {
                     emailError = ""
                     messageError = ""
                     
-                    wsClient.submitContactForm(nameValue, emailValue, messageValue)
+                    wsClient.submitContactForm(nameField.text, emailField.text, messageField.text)
                 }
             }
             
@@ -232,4 +224,3 @@ Page {
         }
     }
 }
-
