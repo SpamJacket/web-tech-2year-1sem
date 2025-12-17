@@ -11,9 +11,9 @@ spamjacket
 Проект представляет собой полноценный веб-сервис с клиентской и серверной частью:
 
 - **Frontend** — React SPA с современным адаптивным дизайном
-- **Backend** — REST API на Express.js с валидацией данных
+- **Backend** — WebSocket сервер на ws с валидацией данных
 
-После заполнения формы данные отправляются на сервер, где проходят валидацию. Сервер возвращает подтверждение успешной проверки или список ошибок.
+После заполнения формы данные отправляются на сервер через WebSocket, где проходят валидацию. Сервер возвращает подтверждение успешной проверки или список ошибок.
 
 ## 🛠 Технологии
 
@@ -26,14 +26,13 @@ spamjacket
 
 ### Backend
 - **Node.js** — среда выполнения
-- **Express.js 5** — веб-фреймворк
-- **express-validator** — валидация данных
+- **ws** — WebSocket сервер
 - **TypeScript** — типизация
 
 ## 📁 Структура проекта
 
 ```
-web-tech-2year-1sem/
+contact-form/
 ├── client/                     # Frontend (React + TypeScript)
 │   ├── src/
 │   │   ├── api/                # API функции
@@ -53,9 +52,8 @@ web-tech-2year-1sem/
 │   ├── tsconfig.json
 │   └── vite.config.ts
 │
-├── server/                     # Backend (Express + TypeScript)
+├── server/                     # Backend (WebSocket + TypeScript)
 │   ├── src/
-│   │   ├── routes/             # Маршруты API
 │   │   ├── validators/         # Правила валидации
 │   │   ├── types/              # TypeScript типы
 │   │   └── index.ts            # Точка входа
@@ -86,7 +84,7 @@ npm install
 ### Запуск в режиме разработки
 
 ```bash
-# Терминал 1 — Backend (порт 3000)
+# Терминал 1 — Backend (WebSocket порт 8080)
 cd server
 npm run dev
 
@@ -98,34 +96,49 @@ npm run dev
 ### Доступ к приложению
 
 - **Frontend:** http://localhost:5173
-- **API:** http://localhost:3000/api
+- **WebSocket Server:** ws://localhost:8080
 
-## 📡 API Endpoints
+## 📡 WebSocket Protocol
 
-### POST /api/contact
+### Подключение
 
-Отправка контактной формы.
+При подключении клиент получает приветственное сообщение:
+
+```json
+{
+  "type": "welcome",
+  "message": "Добро пожаловать! Сервер готов принимать данные формы.",
+  "timestamp": "2024-12-14T12:00:00.000Z"
+}
+```
+
+### Отправка контактной формы
 
 **Request:**
 ```json
 {
-  "name": "Иван Иванов",
-  "email": "ivan@example.com",
-  "message": "Здравствуйте! У меня есть вопрос..."
+  "type": "contact_submit",
+  "data": {
+    "name": "Иван Иванов",
+    "email": "ivan@example.com",
+    "message": "Здравствуйте! У меня есть вопрос..."
+  }
 }
 ```
 
-**Success Response (200):**
+**Success Response:**
 ```json
 {
+  "type": "contact_response",
   "success": true,
   "message": "Сообщение успешно проверено и принято"
 }
 ```
 
-**Validation Error (400):**
+**Validation Error:**
 ```json
 {
+  "type": "contact_response",
   "success": false,
   "errors": {
     "name": "Имя должно содержать минимум 2 символа",
@@ -135,15 +148,11 @@ npm run dev
 }
 ```
 
-### GET /api/health
-
-Проверка состояния сервера.
-
-**Response:**
+**General Error:**
 ```json
 {
-  "status": "ok",
-  "timestamp": "2024-12-14T12:00:00.000Z"
+  "type": "error",
+  "message": "Некорректный формат JSON"
 }
 ```
 
@@ -191,3 +200,7 @@ npm run dev
 | `npm start` | Запуск production |
 | `npm run lint` | Проверка ESLint |
 | `npm run format` | Форматирование Prettier |
+
+## 🔗 Совместимость
+
+Сервер совместим с клиентом Aurora OS (`contact-form-aurora`). Оба используют одинаковый WebSocket протокол.

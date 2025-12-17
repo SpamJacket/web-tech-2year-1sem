@@ -15,15 +15,14 @@
     "keywords": [],
     "author": "spamjacket",
     "license": "ISC",
-    "description": "Contact form API server",
+    "description": "Contact form WebSocket server",
     "dependencies": {
-        "express": "^5.2.1",
-        "express-validator": "^7.3.1"
+        "ws": "^8.18.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.39.1",
-        "@types/express": "^5.0.6",
         "@types/node": "^25.0.2",
+        "@types/ws": "^8.18.1",
         "eslint": "^9.39.1",
         "globals": "^16.5.0",
         "nodemon": "^3.1.11",
